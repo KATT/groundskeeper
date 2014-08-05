@@ -36,5 +36,21 @@ module.exports = {
         cleaner.write(file);
         console.log(+new Date() - start + ' ms');
         assert.equal(cleaner.toString(), clean);
+    },
+
+    'not failing in if-statements using console': function () {
+        var file = fixture('console/console.if-statement'),
+            clean = fixture('console/console.if-statement.clean'),
+            cleaner = groundskeeper({
+                debugger: true,
+                pragmas: ['validation', 'development']
+            });
+
+        cleaner.write(file);
+
+        // TEMP write file
+        fs.writeFileSync(__dirname + '/fixtures/console/console.if-statement.actual.js', cleaner.toString());
+
+        assert.equal(cleaner.toString(), clean);
     }
 };
